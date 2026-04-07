@@ -1,0 +1,90 @@
+let modInfo = {
+	name: "loader3229's Last Tree",
+	id: "loader3229-s-last-tree",
+	author: "loader3229",
+	pointsName: "能力值",
+	modFiles: ["layers.js", "tree.js", "Chinese2.js", "core.js"],
+
+	discordName: "loader3229's Discord Server",
+	discordLink: "https://discord.gg/jztUReQ2vT",
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
+	offlineLimit: 1,  // In hours
+}
+
+// Set your version in num and name
+let VERSION = {
+	num: "1.0",
+	name: "",
+}
+
+let changelog = ``
+
+let winText = `你暂时已经达到了这个树MOD的残局，但是现在...`
+
+// If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
+// (The ones here are examples, all official functions are already taken care of)
+var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
+
+function getStartPoints(){
+    return new Decimal(modInfo.initialStartPoints)
+}
+
+// Determines if it should show points/sec
+function canGenPoints(){
+	return true
+}
+
+// Calculate points/sec!
+function getPointGen() {
+	if(!canGenPoints())
+		return new Decimal(0)
+
+	let gain = new Decimal(0)
+    if(hasUpgrade("c",23))gain = gain.add(0.1)
+    if(hasUpgrade("c",24))gain = gain.add(0.4)
+    if(hasUpgrade("c",25))gain = gain.add(buyableEffect("c",21))
+    if(hasUpgrade("c",25))gain = gain.add(buyableEffect("c",22)[0])
+    if(hasUpgrade("c",25))gain = gain.add(buyableEffect("c",23))
+    if(hasUpgrade("c",34))gain = gain.mul(buyableEffect("c",13))
+	return gain
+}
+
+// You can add non-layer related variables that should to into "player" and be saved here, along with default values
+function addedPlayerData() { return {
+}}
+
+// Display extra things at the top of the page
+var displayThings = [
+	"本MOD的作者：loader3229，QQ：1010903229",
+    function(){
+        if(hasUpgrade("c",33))return "Rating: "+formatWhole(getRating());
+        return "";
+    },
+]
+
+// Determines when the game "ends"
+function isEndgame() {
+	return player.points.gte(new Decimal("e280000000"))
+}
+
+
+// Less important things beyond this point!
+
+// Style for the background, can be a function
+var backgroundStyle = {
+
+}
+
+// You can change this if you have things that can be messed up by long tick lengths
+function maxTickLength() {
+	return(3600) // Default is 1 hour which is just arbitrarily large
+}
+
+// Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
+// you can cap their current resources with this.
+function fixOldSave(oldVersion){
+}
+
+function getRating(){
+    return player.points.add(1).log(2).mul(2);
+}
