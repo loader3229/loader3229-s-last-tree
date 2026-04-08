@@ -21,6 +21,7 @@ addLayer("c", {
         mult = new Decimal(1)
         mult = mult.mul(buyableEffect("c", 11))
         if (hasUpgrade("c", 22)) mult = mult.mul(2)
+        if(hasUpgrade("i",34))mult = mult.mul(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -40,11 +41,11 @@ addLayer("c", {
             title: "数组 Array",
             body() {
                 let ret = "你发现你的C++代码里面出现了一个特殊的变量，里面可以存入非常多的数字...<br>";
-                let b1 = player.c.buyables[31],b2 = player.c.buyables[32];
+                let b1 = player.c.buyables[31],b2 = player.c.buyables[32],b3 = player.c.buyables[33];
                 let c = [];
-                while(b1.gte(1) || b2.gte(1)){
-                    c.push(b1.add(1).div(2).floor().toNumber()+b2.add(1).div(2).floor().toNumber()+1);
-                    b1 = b1.div(2);b2 = b2.div(2);
+                while(b1.gte(1) || b2.gte(1) || b3.gte(1)){
+                    c.push(b1.add(1).div(2).floor().toNumber()+b2.add(1).div(2).floor().toNumber()+b3.add(1).div(2).floor().toNumber()+1);
+                    b1 = b1.div(2);b2 = b2.div(2);b3 = b3.div(2);
                 }
                 ret += "double arr["+(c.length+1)+"]={";
                 for(let i=0;i<c.length;i++){
@@ -52,6 +53,7 @@ addLayer("c", {
                     ret += ",";
                 }
                 ret += "1};";
+                if(hasUpgrade("i",33))ret += "double* pointer=arr;";
                 ret += "<br>同时，你觉得这个数组里面所有数字都在乘以你的能力值获取...";
                 return ret;
             },
@@ -229,7 +231,7 @@ addLayer("c", {
             unlocked() { return hasUpgrade("c", 43) }
         },
         45: {
-            title: "数组加成",
+            title: "数组，就是用来增加的",
             description: "在数组页面解锁新的购买项。",
             cost: new Decimal(3e9),
             unlocked() { return hasUpgrade("i", 25) }
@@ -418,8 +420,34 @@ addLayer("c", {
                 while(x%2==0){
                     x=x/2;y++;
                 }
-                return "购买后运行以下C++代码：arr["+y+"]++;<br>" +
+                return "购买后运行以下C++代码：arr["+y+"]+=1;<br>" +
                     "花费：" + format(this.cost()) + "字节代码<br>" +
+                    "等级：" + format(player[this.layer].buyables[this.id])
+            },
+            unlocked() { return hasUpgrade('c', 45) }
+        },
+        33: {
+            title: "使用指针增加数组的元素",
+            cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
+                let cost = Decimal.pow(1.5, Decimal.pow(1.5, x).add(20));
+                return cost
+            },
+            canAfford() { return player[this.layer].points.gte(this.cost()) && player.i.points.gte(this.cost()) },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(this.cost())
+                player.i.points = player.i.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            display() { // Everything else displayed in the buyable button after the title
+                let x = player[this.layer].buyables[this.id].add(1).toNumber(),y=0;
+                while(x%2==0){
+                    x=x/2;y++;
+                }
+                if(y==0)return "为了不让指针影响数组外的内存，还需要一些网络上的安全知识...<br>购买后运行以下C++代码：*pointer+=1;<br>" +
+                    "花费：" + format(this.cost()) + "字节代码和" + format(this.cost()) + "网络知识<br>" +
+                    "等级：" + format(player[this.layer].buyables[this.id])
+                return "为了不让指针影响数组外的内存，还需要一些网络上的安全知识...<br>购买后运行以下C++代码：*(pointer+"+y+")+=1;<br>" +
+                    "花费：" + format(this.cost()) + "字节代码和" + format(this.cost()) + "网络知识<br>" +
                     "等级：" + format(player[this.layer].buyables[this.id])
             },
             unlocked() { return hasUpgrade('c', 45) }

@@ -20,7 +20,7 @@ addLayer("i", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if(hasUpgrade("i",13))mult = mult.add(buyableEffect("c",21))
-        
+        if(hasUpgrade("i",34))mult = mult.mul(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -112,6 +112,24 @@ addLayer("i", {
             description: "这正是这棵树所使用的编程语言。使能力值获取翻倍。",
             cost: new Decimal(200000),
             unlocked(){return hasUpgrade("c",44)}
+        },
+        33: {
+            title: "指针",
+            description: "double* pointer=arr; 在数组页面解锁新的购买项。",
+            cost: new Decimal(4e5),
+            unlocked(){return hasUpgrade("i",25)}
+        },
+        34: {
+            title: "函数",
+            description: "int x(int y){return y+1;} 新的知识点！使能力值获取，写代码的速度和网络知识获取翻倍。",
+            cost: new Decimal(6e5),
+            unlocked(){return hasUpgrade("i",25)}
+        },
+        35: {
+            title: "The Modding Tree",
+            description: "解锁新的层级。",
+            cost: new Decimal(1e6),
+            unlocked(){return hasUpgrade("i",34)}
         },
     }
 })

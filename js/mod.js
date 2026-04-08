@@ -54,16 +54,18 @@ function getPointGen() {
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",11))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",12))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",13))
+    if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",21))
     if(hasUpgrade("i",21))gain = gain.mul(2)
     if(hasUpgrade("i",25)){
-        let b1 = player.c.buyables[31],b2 = player.c.buyables[32];
-        while(b1.gte(1) || b2.gte(1)){
-            gain = gain.mul(b1.add(1).div(2).floor().toNumber()+b2.add(1).div(2).floor().toNumber()+1);
-            b1 = b1.div(2);b2 = b2.div(2);
+        let b1 = player.c.buyables[31],b2 = player.c.buyables[32],b3 = player.c.buyables[33];
+        while(b1.gte(1) || b2.gte(1) || b3.gte(1)){
+            gain = gain.mul(b1.add(1).div(2).floor().toNumber()+b2.add(1).div(2).floor().toNumber()+b3.add(1).div(2).floor().toNumber()+1);
+            b1 = b1.div(2);b2 = b2.div(2);b3 = b3.div(2);
         }
     }
     if(hasUpgrade("i",31))gain = gain.mul(2)
     if(hasUpgrade("i",32))gain = gain.mul(2)
+    if(hasUpgrade("i",34))gain = gain.mul(2)
 	return gain
 }
 

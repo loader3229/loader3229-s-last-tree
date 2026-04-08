@@ -6,7 +6,7 @@ addLayer("c2", {
         return {
             unlocked: true,
             points: new Decimal(0),
-            clickables: { 11: new Decimal(0),12: new Decimal(0) ,13: new Decimal(0) }
+            clickables: { 11: new Decimal(0),12: new Decimal(0) ,13: new Decimal(0) ,21: new Decimal(0) }
         }
     },
     color: "#CCFFCC",
@@ -76,14 +76,31 @@ addLayer("c2", {
                 return ef
             },
             display() { // Everything else displayed in the buyable button after the title
-                return "参加CCF GESP 三级认证，根据最高成绩提升能力值获取<br>冷却时间："+format(getClickableState(this.layer, this.id))+"s<br>最高成绩："+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>推荐Rating：100<br>Rating为167时必定满分并取得最大加成<br>加成：x"+format(buyableEffect(this.layer, this.id));
+                return "参加CCF GESP 三级认证，根据最高成绩提升能力值获取<br>冷却时间："+format(getClickableState(this.layer, this.id))+"s<br>最高成绩："+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>推荐Rating：100<br>Rating为167时必定满分并取得最大加成<br>达到60分以解锁下一个竞赛<br>加成：x"+format(buyableEffect(this.layer, this.id));
             },unlocked(){return player.c2.buyables[12].gte(60)}
+        },
+        21: {
+            title: "CCF GESP 四级认证",
+            canAfford() { return player[this.layer].clickables[21].lte(0) },
+            buy() {
+                c_rating = getRating();
+                setClickableState(this.layer, this.id, new Decimal(90))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).max(c_rating.mul(Math.random()*0.04+0.4)).floor().min(100))
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let ef = x.div(50).pow(2).add(1)
+                return ef
+            },
+            display() { // Everything else displayed in the buyable button after the title
+                return "参加CCF GESP 四级认证，根据最高成绩提升能力值获取<br>冷却时间："+format(getClickableState(this.layer, this.id))+"s<br>最高成绩："+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>推荐Rating：150<br>Rating为250时必定满分并取得最大加成<br>加成：x"+format(buyableEffect(this.layer, this.id));
+            },unlocked(){return player.c2.buyables[13].gte(60)}
         },
 },
     update(x) {
         player.c2.clickables[11] = player.c2.clickables[11].sub(x).max(0);
         player.c2.clickables[12] = player.c2.clickables[12].sub(x).max(0);
         player.c2.clickables[13] = player.c2.clickables[13].sub(x).max(0);
+        player.c2.clickables[21] = player.c2.clickables[21].sub(x).max(0);
 
     },
 
