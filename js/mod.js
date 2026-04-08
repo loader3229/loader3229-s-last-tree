@@ -3,7 +3,7 @@ let modInfo = {
 	id: "loader3229-s-last-tree",
 	author: "loader3229",
 	pointsName: "能力值",
-	modFiles: ["layers.js", "tree.js", "Chinese2.js", "core.js"],
+	modFiles: ["layers/c.js", "layers/i.js", "layers/c2.js", "tree.js", "Chinese2.js", "core.js"],
 
 	discordName: "loader3229's Discord Server",
 	discordLink: "https://discord.gg/jztUReQ2vT",
@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0",
+	num: "1.1",
 	name: "",
 }
 
@@ -43,9 +43,27 @@ function getPointGen() {
     if(hasUpgrade("c",23))gain = gain.add(0.1)
     if(hasUpgrade("c",24))gain = gain.add(0.4)
     if(hasUpgrade("c",25))gain = gain.add(buyableEffect("c",21))
-    if(hasUpgrade("c",25))gain = gain.add(buyableEffect("c",22)[0])
+    if(hasUpgrade("c",25) && !hasUpgrade("i",23))gain = gain.add(buyableEffect("c",22)[0])
     if(hasUpgrade("c",25))gain = gain.add(buyableEffect("c",23))
+    if(hasUpgrade("c",25) && hasUpgrade("i",23))gain = gain.mul(buyableEffect("c",22)[0])
     if(hasUpgrade("c",34))gain = gain.mul(buyableEffect("c",13))
+    if(hasUpgrade("c",41))gain = gain.mul(upgradeEffect("c",41))
+    if(hasUpgrade("c",42))gain = gain.mul(upgradeEffect("c",42))
+    if(hasUpgrade("i",12))gain = gain.mul(2)
+    if(hasUpgrade("i",14))gain = gain.mul(upgradeEffect("i",14))
+    if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",11))
+    if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",12))
+    if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",13))
+    if(hasUpgrade("i",21))gain = gain.mul(2)
+    if(hasUpgrade("i",25)){
+        let b1 = player.c.buyables[31],b2 = player.c.buyables[32];
+        while(b1.gte(1) || b2.gte(1)){
+            gain = gain.mul(b1.add(1).div(2).floor().toNumber()+b2.add(1).div(2).floor().toNumber()+1);
+            b1 = b1.div(2);b2 = b2.div(2);
+        }
+    }
+    if(hasUpgrade("i",31))gain = gain.mul(2)
+    if(hasUpgrade("i",32))gain = gain.mul(2)
 	return gain
 }
 
