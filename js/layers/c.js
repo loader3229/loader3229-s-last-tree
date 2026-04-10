@@ -20,8 +20,12 @@ addLayer("c", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         mult = mult.mul(buyableEffect("c", 11))
+        mult = mult.mul(buyableEffect("c", 51))
         if (hasUpgrade("c", 22)) mult = mult.mul(2)
         if(hasUpgrade("i",34))mult = mult.mul(2)
+        if (hasUpgrade("c", 52)) mult = mult.mul(2)
+        if(hasUpgrade("i",42))mult = mult.mul(2)
+    if(hasMilestone("m",3))mult = mult.mul(player.m.points)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -58,11 +62,18 @@ addLayer("c", {
                 return ret;
             },
         },
+        c: {
+            title: "操作系统 OS",
+            body() {
+                return "你发现你现在用的Windows XP 太旧了，别的人都在用Windows 10了。你决定升级你的操作系统...";
+            },
+        },
     },
     layerShown() { return true },
     tabFormat: {
         Computer: { content: ["main-display", ["infobox", "a"], "prestige-button", "resource-display", ["clickable", 11], "upgrades", ["buyables", [1,2,4]]] },
-        Array: { content: ["main-display", ["infobox", "b"], ["buyables", [3]]] ,unlocked:function(){return hasUpgrade("i",25);} }
+        Array: { content: ["main-display", ["infobox", "b"], ["buyables", [3]]] ,unlocked:function(){return hasUpgrade("i",25);} },
+        OS: { content: ["main-display", ["infobox", "c"], ["buyables", [5]]] ,unlocked:function(){return hasMilestone("m",0);} }
     },
     clickables: {
         11: {
@@ -235,6 +246,24 @@ addLayer("c", {
             description: "在数组页面解锁新的购买项。",
             cost: new Decimal(3e9),
             unlocked() { return hasUpgrade("i", 25) }
+        },
+        51: {
+            title: "冒泡排序",
+            description: "手写一个冒泡排序，可以用来根据标题排序网上的资料。网络知识获取翻倍。",
+            cost: new Decimal(5e11),
+            unlocked() { return hasMilestone("m", 3) }
+        },
+        52: {
+            title: "优化复杂度",
+            description: "把O(n^2)的算法优化到O(n*log(n))。写代码的速度翻倍。",
+            cost: new Decimal(3e12),
+            unlocked() { return hasMilestone("m", 3) }
+        },
+        53: {
+            title: "从失误中汲取知识",
+            description: "你写代码的时候肯定会有失误，你可以从这些失误中汲取知识。能力值获取翻倍。",
+            cost: new Decimal(2e13),
+            unlocked() { return hasMilestone("m", 3) }
         },
     },
     passiveGeneration() { return buyableEffect("c", 12).toNumber() },
@@ -497,6 +526,29 @@ addLayer("c", {
                     "效果：上一个购买项的效果变为" + format(this.effect()) + "倍"
             },
             unlocked() { return hasUpgrade('c', 44) }
+        },
+        51: {
+            title: "升级操作系统",
+            cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
+                let cost = Decimal.pow(10, x.pow(1.2)).mul(1e5)
+                return cost
+            },
+            canAfford() { return player.i.points.gte(this.cost()) },
+            buy() {
+                player.i.points = player.i.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let ef = Decimal.pow(2,x)
+                return ef
+            },
+            display() { // Everything else displayed in the buyable button after the title
+            return "当前操作系统：Windows "+["XP","Vista","7","8","8.1","10 Version 1507"][player[this.layer].buyables[this.id].toNumber()]+"<br>升级操作系统可以让写代码速度翻倍<br>" +
+                    "花费：" + format(this.cost()) + "网络知识<br>" +
+                    "等级：" + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "效果：写代码的速度变为" + format(this.effect()) + "倍"
+            },
+            unlocked() { return hasMilestone('m', 0) }
         },
     }
 })

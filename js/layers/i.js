@@ -21,6 +21,9 @@ addLayer("i", {
         mult = new Decimal(1)
         if(hasUpgrade("i",13))mult = mult.add(buyableEffect("c",21))
         if(hasUpgrade("i",34))mult = mult.mul(2)
+        if(hasUpgrade("c",51))mult = mult.mul(2)
+    if(hasMilestone("m",4))mult = mult.mul(player.m.points)
+        if(hasUpgrade("i",41))mult = mult.mul(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -131,5 +134,24 @@ addLayer("i", {
             cost: new Decimal(1e6),
             unlocked(){return hasUpgrade("i",34)}
         },
+        41: {
+            title: "快速排序",
+            description: "你在网络上面查到了快速排序，可以更快的用来根据标题排序网上的资料。网络知识获取翻倍。",
+            cost: new Decimal(5e7),
+            unlocked() { return hasMilestone("m", 4) }
+        },
+        42: {
+            title: "结构化程序设计",
+            description: "结构化程序设计把一个问题拆成多个小问题，每个小问题可以用一个函数来解决。写代码的速度翻倍。",
+            cost: new Decimal(3e8),
+            unlocked() { return hasMilestone("m", 4) }
+        },
+        43: {
+            title: "C++结构体、Python字典、JavaScript对象",
+            description: "升级标题可以这么长的吗？能力值获取翻倍。",
+            cost: new Decimal(2e9),
+            unlocked() { return hasMilestone("m", 4) }
+        },
+
     }
 })

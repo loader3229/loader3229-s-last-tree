@@ -17,7 +17,7 @@ addLayer("c2", {
     baseAmount() { return player.points }, // Get the current amount of baseResource
     type() { return "none"; }, // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: 1, // Row the layer is in on the tree (0 is the first row)
-    branches: ["c","i"],
+    branches: ["c","i","oj"],
     infoboxes: {
         a: {
             title: "竞赛 Contest",
@@ -41,6 +41,7 @@ addLayer("c2", {
             },
             effect(x) { // Effects of owning x of the items, x is a decimal
                 let ef = x.div(50).pow(2).add(1)
+		if(x.gte(100) && hasMilestone("m",2))ef = ef.mul(2)
                 return ef
             },
             display() { // Everything else displayed in the buyable button after the title
@@ -57,6 +58,7 @@ addLayer("c2", {
             },
             effect(x) { // Effects of owning x of the items, x is a decimal
                 let ef = x.div(50).pow(2).add(1)
+		if(x.gte(100) && hasMilestone("m",2))ef = ef.mul(2)
                 return ef
             },
             display() { // Everything else displayed in the buyable button after the title
@@ -73,6 +75,7 @@ addLayer("c2", {
             },
             effect(x) { // Effects of owning x of the items, x is a decimal
                 let ef = x.div(50).pow(2).add(1)
+		if(x.gte(100) && hasMilestone("m",2))ef = ef.mul(2)
                 return ef
             },
             display() { // Everything else displayed in the buyable button after the title
@@ -89,6 +92,7 @@ addLayer("c2", {
             },
             effect(x) { // Effects of owning x of the items, x is a decimal
                 let ef = x.div(50).pow(2).add(1)
+		if(x.gte(100) && hasMilestone("m",2))ef = ef.mul(2)
                 return ef
             },
             display() { // Everything else displayed in the buyable button after the title
@@ -101,7 +105,14 @@ addLayer("c2", {
         player.c2.clickables[12] = player.c2.clickables[12].sub(x).max(0);
         player.c2.clickables[13] = player.c2.clickables[13].sub(x).max(0);
         player.c2.clickables[21] = player.c2.clickables[21].sub(x).max(0);
-
+	if(hasMilestone("m",2)){
+		let t=0;
+		if(player.c2.buyables[11].gte(100))t++;
+		if(player.c2.buyables[12].gte(100))t++;
+		if(player.c2.buyables[13].gte(100))t++;
+		if(player.c2.buyables[21].gte(100))t++;
+		player[this.layer].points=new Decimal(t);
+	}
     },
 
 })

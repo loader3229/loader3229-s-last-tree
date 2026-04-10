@@ -3,7 +3,7 @@ let modInfo = {
 	id: "loader3229-s-last-tree",
 	author: "loader3229",
 	pointsName: "能力值",
-	modFiles: ["layers/c.js", "layers/i.js", "layers/c2.js", "tree.js", "Chinese2.js", "core.js"],
+	modFiles: ["layers/c.js", "layers/i.js", "layers/m.js", "layers/c2.js", "layers/oj.js", "tree.js", "Chinese2.js", "core.js"],
 
 	discordName: "loader3229's Discord Server",
 	discordLink: "https://discord.gg/jztUReQ2vT",
@@ -51,6 +51,7 @@ function getPointGen() {
     if(hasUpgrade("c",42))gain = gain.mul(upgradeEffect("c",42))
     if(hasUpgrade("i",12))gain = gain.mul(2)
     if(hasUpgrade("i",14))gain = gain.mul(upgradeEffect("i",14))
+    if(hasUpgrade("oj",11))gain = gain.mul(upgradeEffect("oj",11))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",11))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",12))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",13))
@@ -66,6 +67,9 @@ function getPointGen() {
     if(hasUpgrade("i",31))gain = gain.mul(2)
     if(hasUpgrade("i",32))gain = gain.mul(2)
     if(hasUpgrade("i",34))gain = gain.mul(2)
+    if(hasUpgrade("c",53))gain = gain.mul(2)
+    if(hasUpgrade("i",43))gain = gain.mul(2)
+    if(hasMilestone("m",1))gain = gain.mul(player.m.points)
 	return gain
 }
 
