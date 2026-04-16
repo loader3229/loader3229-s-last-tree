@@ -76,6 +76,26 @@ addLayer("m", {
             done() {return player[this.layer].points.gte(7)}, // Used to determine when to give the milestone
             effectDescription:  "Online Judge会随着时间出现新的题目。游玩时间减少OJ层级的需求。",
         },
+		{
+			requirementDescription: "第8个里程碑",
+            unlocked() {return player[this.layer].best.gte(7)},
+            done() {return player[this.layer].points.gte(8)}, // Used to determine when to give the milestone
+            effectDescription:  "Online Judge里面每道完成的题目使网络知识获取+10%。",
+        },
+		{
+			requirementDescription: "第9个里程碑",
+            unlocked() {return player[this.layer].best.gte(8)},
+            done() {return player[this.layer].points.gte(9)}, // Used to determine when to give the milestone
+            effectDescription:  "能力值增加能力值获取。",
+        },
+		{
+			requirementDescription: "第10个里程碑",
+            unlocked() {return player[this.layer].best.gte(9)},
+            done() {return player[this.layer].points.gte(10)}, // Used to determine when to give the milestone
+            effectDescription:  "在操作系统页面解锁新的购买项。",
+        },
+
+
     ],
     layerShown() { return hasUpgrade("i", 35) },
     resetsNothing: true,

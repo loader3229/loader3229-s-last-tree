@@ -24,6 +24,9 @@ addLayer("i", {
         if(hasUpgrade("c",51))mult = mult.mul(2)
     if(hasMilestone("m",4))mult = mult.mul(player.m.points)
         if(hasUpgrade("i",41))mult = mult.mul(2)
+if(hasMilestone("m",7))mult = mult.mul(player.oj.points.div(10).add(1))
+        if(hasMilestone("m",9))mult = mult.mul(buyableEffect("c",52))
+
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses

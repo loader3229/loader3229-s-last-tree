@@ -19,8 +19,10 @@ addLayer("oj", {
 	if(hasMilestone("m",6))return 4+60000/(player.timePlayed+10000);
 	return 10;
 	},
-    exponent: 1, // Prestige currency exponent
-
+    exponent(){
+	if(hasUpgrade("oj",12))return 0.9;
+	return 1;
+}, 
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -46,6 +48,22 @@ addLayer("oj", {
             cost: new Decimal(10),
             effect(){
                 return player.oj.points.add(1);
+            },
+            effectDisplay(){
+                return "x" + format(this.effect())
+            },
+        },
+        12: {
+            title: "举一反三",
+            description: "使完成题目的需求减少。",
+            cost: new Decimal(12)
+        },
+        13: {
+            title: "分析提交记录",
+            description: "你看到了Online Judge里面你的提交记录的所有代码，并且存储了你的所有代码用于参考。使写代码的速度获取根据完成的题目数量增加。",
+            cost: new Decimal(18),
+            effect(){
+                return player.oj.points.div(5).add(1);
             },
             effectDisplay(){
                 return "x" + format(this.effect())

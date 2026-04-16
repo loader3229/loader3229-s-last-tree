@@ -6,7 +6,7 @@ addLayer("c2", {
         return {
             unlocked: true,
             points: new Decimal(0),
-            clickables: { 11: new Decimal(0),12: new Decimal(0) ,13: new Decimal(0) ,21: new Decimal(0) }
+            clickables: { 11: new Decimal(0),12: new Decimal(0) ,13: new Decimal(0) ,21: new Decimal(0),22: new Decimal(0) }
         }
     },
     color: "#CCFFCC",
@@ -99,18 +99,37 @@ addLayer("c2", {
                 return "参加CCF GESP 四级认证，根据最高成绩提升能力值获取<br>冷却时间："+format(getClickableState(this.layer, this.id))+"s<br>最高成绩："+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>推荐Rating：150<br>Rating为250时必定满分并取得最大加成<br>加成：x"+format(buyableEffect(this.layer, this.id));
             },unlocked(){return player.c2.buyables[13].gte(60)}
         },
+        22: {
+            title: "CCF GESP 五级认证",
+            canAfford() { return player[this.layer].clickables[22].lte(0) },
+            buy() {
+                c_rating = getRating();
+                setClickableState(this.layer, this.id, new Decimal(100))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).max(c_rating.mul(Math.random()*0.03+0.3)).floor().min(100))
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let ef = x.div(50).pow(2).add(1)
+		if(x.gte(100) && hasMilestone("m",2))ef = ef.mul(2)
+                return ef
+            },
+            display() { // Everything else displayed in the buyable button after the title
+                return "参加CCF GESP 五级认证，根据最高成绩提升能力值获取<br>冷却时间："+format(getClickableState(this.layer, this.id))+"s<br>最高成绩："+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>推荐Rating：200<br>Rating为334时必定满分并取得最大加成<br>加成：x"+format(buyableEffect(this.layer, this.id));
+            },unlocked(){return player.c2.buyables[21].gte(60)}
+        },
 },
     update(x) {
         player.c2.clickables[11] = player.c2.clickables[11].sub(x).max(0);
         player.c2.clickables[12] = player.c2.clickables[12].sub(x).max(0);
         player.c2.clickables[13] = player.c2.clickables[13].sub(x).max(0);
         player.c2.clickables[21] = player.c2.clickables[21].sub(x).max(0);
+        player.c2.clickables[22] = player.c2.clickables[22].sub(x).max(0);
 	if(hasMilestone("m",2)){
 		let t=0;
 		if(player.c2.buyables[11].gte(100))t++;
 		if(player.c2.buyables[12].gte(100))t++;
 		if(player.c2.buyables[13].gte(100))t++;
 		if(player.c2.buyables[21].gte(100))t++;
+		if(player.c2.buyables[22].gte(100))t++;
 		player[this.layer].points=new Decimal(t);
 	}
     },

@@ -56,6 +56,7 @@ function getPointGen() {
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",12))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",13))
     if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",21))
+    if(hasUpgrade("i",15))gain = gain.mul(buyableEffect("c2",22))
     if(hasUpgrade("i",21))gain = gain.mul(2)
     if(hasUpgrade("i",25)){
         let b1 = player.c.buyables[31],b2 = player.c.buyables[32],b3 = player.c.buyables[33];
@@ -70,6 +71,7 @@ function getPointGen() {
     if(hasUpgrade("c",53))gain = gain.mul(2)
     if(hasUpgrade("i",43))gain = gain.mul(2)
     if(hasMilestone("m",1))gain = gain.mul(player.m.points)
+    if(hasMilestone("m",8))gain = gain.mul(player.points.pow(0.01).add(1))
 	return gain
 }
 

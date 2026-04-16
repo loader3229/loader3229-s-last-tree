@@ -26,6 +26,8 @@ addLayer("c", {
         if (hasUpgrade("c", 52)) mult = mult.mul(2)
         if(hasUpgrade("i",42))mult = mult.mul(2)
     if(hasMilestone("m",3))mult = mult.mul(player.m.points)
+        if(hasUpgrade("oj",13))mult = mult.mul(upgradeEffect("oj",13))
+
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -65,6 +67,7 @@ addLayer("c", {
         c: {
             title: "操作系统 OS",
             body() {
+		if(hasMilestone("m",9))return "你终于升级到了Windows 10，但是发现自带的Microsoft Edge浏览器有点不好用...你决定自己写一个浏览器，用于更快收集网络知识。";
                 return "你发现你现在用的Windows XP 太旧了，别的人都在用Windows 10了。你决定升级你的操作系统...";
             },
         },
@@ -265,6 +268,12 @@ addLayer("c", {
             cost: new Decimal(2e13),
             unlocked() { return hasMilestone("m", 3) }
         },
+        54: {
+            title: "二维数组",
+            description: "使前2个数组购买项更便宜。",
+            cost: new Decimal(1e15),
+            unlocked() { return hasMilestone("m", 3) }
+        },
     },
     passiveGeneration() { return buyableEffect("c", 12).toNumber() },
     buyables: {
@@ -416,6 +425,7 @@ addLayer("c", {
             title: "增加数组的元素",
             cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
                 let cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(3).add(50));
+		if(hasUpgrade("c",54))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(2));
                 return cost
             },
             canAfford() { return player.points.gte(this.cost()) },
@@ -437,6 +447,7 @@ addLayer("c", {
             title: "用代码增加数组的元素",
             cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
                 let cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(2).add(45));
+		if(hasUpgrade("c",54))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(1.5));
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
@@ -543,12 +554,35 @@ addLayer("c", {
                 return ef
             },
             display() { // Everything else displayed in the buyable button after the title
-            return "当前操作系统：Windows "+["XP","Vista","7","8","8.1","10 Version 1507"][player[this.layer].buyables[this.id].toNumber()]+"<br>升级操作系统可以让写代码速度翻倍<br>" +
+            return "当前操作系统：Windows "+["XP","Vista","7","8","8.1","10 Version 1507","10 Version 1511","10 Version 1607","10 Version 1703","10 Version 1709","10 Version 1803","10 Version 1809","10 Version 1903","10 Version 1909","10 Version 2004","10 Version 20H2","10 Version 21H1","10 Version 21H2"][player[this.layer].buyables[this.id].toNumber()]+"<br>升级操作系统可以让写代码速度翻倍<br>" +
                     "花费：" + format(this.cost()) + "网络知识<br>" +
                     "等级：" + format(player[this.layer].buyables[this.id]) + "<br>" +
                     "效果：写代码的速度变为" + format(this.effect()) + "倍"
             },
             unlocked() { return hasMilestone('m', 0) }
+        },
+        52: {
+            title: "升级浏览器",
+            cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
+                let cost = Decimal.pow(10, x.pow(1.2)).mul(1e15)
+                return cost
+            },
+            canAfford() { return player.c.points.gte(this.cost()) },
+            buy() {
+                player.c.points = player.c.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) { // Effects of owning x of the items, x is a decimal
+                let ef = Decimal.pow(2,x)
+                return ef
+            },
+            display() { // Everything else displayed in the buyable button after the title
+            return "升级浏览器可以让网络知识获取翻倍<br>" +
+                    "花费：" + format(this.cost()) + "字节代码<br>" +
+                    "等级：" + format(player[this.layer].buyables[this.id]) + "<br>" +
+                    "效果：网络知识获取速度变为" + format(this.effect()) + "倍"
+            },
+            unlocked() { return hasMilestone('m', 9) }
         },
     }
 })
