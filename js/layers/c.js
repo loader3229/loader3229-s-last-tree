@@ -425,7 +425,7 @@ addLayer("c", {
             title: "增加数组的元素",
             cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
                 let cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(3).add(50));
-		if(hasUpgrade("c",54))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(2));
+		if(hasUpgrade("c",54))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(hasUpgrade("i",44)?1:2));
                 return cost
             },
             canAfford() { return player.points.gte(this.cost()) },
@@ -447,7 +447,7 @@ addLayer("c", {
             title: "用代码增加数组的元素",
             cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
                 let cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(2).add(45));
-		if(hasUpgrade("c",54))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(1.5));
+		if(hasUpgrade("c",54))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(hasUpgrade("i",44)?0.75:1.5));
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
@@ -470,6 +470,7 @@ addLayer("c", {
             title: "使用指针增加数组的元素",
             cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
                 let cost = Decimal.pow(1.5, Decimal.pow(1.5, x).add(20));
+		if(hasUpgrade("i",44))cost = Decimal.pow(1.5, Decimal.pow(1.5, x).mul(0.5));
                 return cost
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) && player.i.points.gte(this.cost()) },

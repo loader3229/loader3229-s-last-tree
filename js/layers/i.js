@@ -155,6 +155,12 @@ if(hasMilestone("m",7))mult = mult.mul(player.oj.points.div(10).add(1))
             cost: new Decimal(2e9),
             unlocked() { return hasMilestone("m", 4) }
         },
+        44: {
+            title: "多维数组",
+            description: "使所有数组购买项更便宜。",
+            cost: new Decimal(1e11),
+            unlocked() { return hasMilestone("m", 4) }
+        },
 
     }
 })
