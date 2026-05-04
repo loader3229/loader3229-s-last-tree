@@ -94,9 +94,18 @@ addLayer("m", {
             done() {return player[this.layer].points.gte(10)}, // Used to determine when to give the milestone
             effectDescription:  "在操作系统页面解锁新的购买项。",
         },
+		{
+			requirementDescription: "第11个里程碑",
+            unlocked() {return player[this.layer].best.gte(10)},
+            done() {return player[this.layer].points.gte(11)}, // Used to determine when to give the milestone
+            effectDescription:  "解锁新的层级。",
+        },
+
 
 
     ],
     layerShown() { return hasUpgrade("i", 35) },
     resetsNothing: true,
+    doReset(layer){
+    }
 })

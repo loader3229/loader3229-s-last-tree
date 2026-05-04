@@ -47,7 +47,7 @@ addLayer("oj", {
             description: "完成题目使你得到了收获。使能力值获取根据完成的题目数量增加。",
             cost: new Decimal(10),
             effect(){
-                return player.oj.points.add(1);
+                return player.oj.points.add(1).pow(hasUpgrade("oj",14)?1.1:1);
             },
             effectDisplay(){
                 return "x" + format(this.effect())
@@ -69,5 +69,12 @@ addLayer("oj", {
                 return "x" + format(this.effect())
             },
         },
+        14: {
+            title: "知识点排序",
+            description: "把你所做的所有题目按照知识点重新排序。第1个升级的效果变为原来的1.1次方。",
+            cost: new Decimal(21),
+        },
     },
+    doReset(layer){
+    }
 });

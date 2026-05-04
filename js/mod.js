@@ -3,7 +3,7 @@ let modInfo = {
 	id: "loader3229-s-last-tree",
 	author: "loader3229",
 	pointsName: "能力值",
-	modFiles: ["layers/c.js", "layers/i.js", "layers/m.js", "layers/c2.js", "layers/oj.js", "tree.js", "Chinese2.js", "core.js"],
+	modFiles: ["layers/c.js", "layers/i.js", "layers/m.js", "layers/c2.js", "layers/oj.js", "layers/p.js", "tree.js", "Chinese2.js", "core.js"],
 
 	discordName: "loader3229's Discord Server",
 	discordLink: "https://discord.gg/jztUReQ2vT",
@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.1",
+	num: "1.2",
 	name: "",
 }
 

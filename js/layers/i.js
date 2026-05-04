@@ -162,5 +162,7 @@ if(hasMilestone("m",7))mult = mult.mul(player.oj.points.div(10).add(1))
             unlocked() { return hasMilestone("m", 4) }
         },
 
+    },
+    doReset(layer){
     }
 })

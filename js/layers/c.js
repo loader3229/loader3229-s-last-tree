@@ -585,5 +585,8 @@ addLayer("c", {
             },
             unlocked() { return hasMilestone('m', 9) }
         },
+    },
+    doReset(layer){
+        if(layer=='p')player.c.points=new Decimal(0);
     }
 })
