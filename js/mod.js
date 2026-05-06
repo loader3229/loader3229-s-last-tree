@@ -70,6 +70,7 @@ function getPointGen() {
     if(hasUpgrade("i",34))gain = gain.mul(2)
     if(hasUpgrade("c",53))gain = gain.mul(2)
     if(hasUpgrade("i",43))gain = gain.mul(2)
+    if(hasUpgrade("p",12))gain = gain.mul(2)
     if(hasMilestone("m",1))gain = gain.mul(player.m.points)
     if(hasMilestone("m",8))gain = gain.mul(player.points.pow(0.01).add(1))
 	return gain

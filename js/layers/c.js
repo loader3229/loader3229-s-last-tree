@@ -25,6 +25,7 @@ addLayer("c", {
         if(hasUpgrade("i",34))mult = mult.mul(2)
         if (hasUpgrade("c", 52)) mult = mult.mul(2)
         if(hasUpgrade("i",42))mult = mult.mul(2)
+        if(hasUpgrade("p",11))mult = mult.mul(2)
     if(hasMilestone("m",3))mult = mult.mul(player.m.points)
         if(hasUpgrade("oj",13))mult = mult.mul(upgradeEffect("oj",13))
 

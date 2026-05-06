@@ -8,7 +8,7 @@ addLayer("p", {
             points: new Decimal(0)
         }
     },
-    color: "#33CCFF",
+    color: "#00bfbf",
     requires: new Decimal(1e16), // Can be a function that takes requirement increases into account
     resource: "应用程序", // Name of prestige currency
     resetDescription: "重置代码量以获得",
@@ -36,6 +36,16 @@ addLayer("p", {
     layerShown() { return hasMilestone("m", 10) },
     passiveGeneration() { return 0; },
     upgrades: {
+        11: {
+            title: "自己的第一个IDE",
+            description: "你用你自己的代码制作了你的第一个IDE。写代码的速度翻倍。",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "基础GUI",
+            description: "一个应用程序一定要有一个GUI。学习编写GUI的方法，使能力值获取翻倍。",
+            cost: new Decimal(3),
+        },
     },
     doReset(layer){
         if(layer=='p')player.c.points=new Decimal(0);
